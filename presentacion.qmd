@@ -1,0 +1,161 @@
+---
+title: "Probabilidad Gaussiana multivariada"
+author: "Diego Pedraza Barajas 2105940X
+
+
+          Abigail Sampedro Gutierrez 2105944A"
+lang: es
+format: 
+  revealjs: default
+  pdf: default
+title-slide-attributes:
+  data-background-image: "logo.png , actuaria.jpg"
+  data-background-size: "15% , 15%"
+  data-background-position: "left , right"
+ 
+---
+
+
+
+## Introduccion 
+
+
+Vamos a hablar de la Gaussiana multivariada, más conocida como distribución normal multivariada, veremos que es, como se calcula, algunas de sus características y parámetros. Tambien mencionaremos su relación con el coeficiente de coorelacion de Pearson. 
+
+## De la curva de campana unidimensional al hiperespacio Gaussiano
+![](hyperspace.jpg){width=100px}
+
+
+##
+
+La Gaussiana multivariada no es mas que la generalización de la distribución normal que todos conocemos aplicada a multiples variables, se utiliza para describir la distribución conjunta de un conjunto de variables aleatorias que estan correlacionadas entre si, se denota como:
+$$
+\mathbf{X} \sim N_p(\mu, \Sigma)
+$$ 
+Características generales:
+
+
+1. Vector de variables aleatorias
+
+2. Relación entre variables
+
+3. Contornos elípticos
+
+## Parametros arquitectonicos y función de densidad
+![](imagen2.png){width=100px}
+
+## 
+
+1. Vector de medias: El centro de gravedad
+$$
+\mu = E[X] = 
+\begin{pmatrix}
+E[X_1] \\
+E[X_2] \\
+\vdots \\
+E[X_p]
+\end{pmatrix}
+=
+\begin{pmatrix}
+\mu_1 \\
+\mu_2 \\
+\vdots \\
+\mu_p
+\end{pmatrix}
+$$
+
+
+## Matriz de covarianzas
+
+$$
+\Sigma = E =
+\begin{pmatrix}
+\mathrm{Var}(X_1) & \mathrm{Cov}(X_1, X_2) & \cdots & \mathrm{Cov}(X_1, X_p) \\
+\mathrm{Cov}(X_2, X_1) & \mathrm{Var}(X_2) & \cdots & \mathrm{Cov}(X_2, X_p) \\
+\vdots & \vdots & \ddots & \vdots \\
+\mathrm{Cov}(X_p, X_1) & \mathrm{Cov}(X_p, X_2) & \cdots & \mathrm{Var}(X_p)
+\end{pmatrix}
+$$
+
+Los elementos de la diagonal principal son las varianzas de cada variable aleatoria individual y los elementos fuera de la diagonal son las covarianzas entre los pares de variables
+
+##
+
+La martriz de covarianza tiene dos propiedades matematicas fundamentales: 
+
+1. Simetria: La matriz es simetrica 
+
+2. Semidefinición Positiva: cualquier combinacion lineal de las variables nunca puede ser negativa
+$$
+v^T \Sigma v \geq 0
+$$
+
+## Diferencia de funcion de densidad normal y multivariada
+Normal
+
+$$
+f(x) = \frac{1}{(2\pi)^{1/2} (\sigma^2)^{1/2}} e^{ -\frac{1}{2} (x-\mu) (\sigma^2)^{-1} (x-\mu) }
+$$
+Multivariada
+$$
+f(\mathbf{x}) = \frac{1}{(2\pi)^{p/2} |\Sigma|^{1/2}} e^{ -\frac{1}{2} (\mathbf{x}-\mu)' \Sigma^{-1} (\mathbf{x}-\mu) }
+$$
+
+
+## visualizacion geometrica bivariada
+
+
+```{r}
+# 1. Cargar las librerías necesarias
+library(MASS)
+library(ggplot2)
+
+# 2. Definir los parámetros de la distribución
+# Vector de medias [µ_x, µ_y]
+# Define el centro de la distribución.
+mu <- c(0, 0)
+
+# Matriz de covarianza [[Var(X), Cov(X,Y)], [Cov(Y,X), Var(Y)]]
+# Define la dispersión y la correlación entre las variables.
+# Una covarianza positiva (0.8 en este caso) indica que X e Y tienden a aumentar juntas.
+sigma <- matrix(c(1.0, 0.8, 
+                  0.8, 1.0), 
+                nrow = 2)
+
+# 3. Generar datos aleatorios
+# Generamos 1000 puntos que siguen esta distribución.
+set.seed(123) # Para que el resultado sea reproducible
+datos_gaussianos <- mvrnorm(n = 1000, mu = mu, Sigma = sigma)
+
+# Convertir a un data frame para usarlo con ggplot2
+df <- as.data.frame(datos_gaussianos)
+colnames(df) <- c("X", "Y")
+
+# 4. Visualizar los datos
+ggplot(df, aes(x = X, y = Y)) +
+  geom_point(alpha = 0.6, color = "blue") + # Dibuja los puntos de datos
+  geom_density_2d(color = "red") +         # Dibuja las elipses de contorno de densidad
+  labs(
+    title = "Distribución Gaussiana Multivariada (Bivariada)",
+    subtitle = "Correlación Positiva entre X e Y",
+    x = "Variable Aleatoria X",
+    y = "Variable Aleatoria Y"
+  ) +
+  theme_minimal() +
+  coord_equal() # Asegura que la escala de los ejes sea la misma para no distorsionar la forma
+```
+
+## Correlacion de Pearson 
+Existen las curvas de isodensidad que son los contornos donde la probabilidad es constante, para una distribucion bivariada estos contornos son elipses, su forma y orientación esta dada por el coeficiente de correlación de Pearson, o sea la covarianza normalizada
+$$
+\rho_{ij} = \frac{\sigma_{ij}}{\sigma_i \sigma_j}
+$$
+
+## Conclusión
+
+La distribucion Gaussiana multivariada es más que una formula matemática, tiene aplicaciónes en diversas areas como en la administración de riesgos ya que permite a los analistas ir mas alla del riesgo individual de los activos y cuantificar los riesgos totales de un portafolio. 
+
+
+
+
+
