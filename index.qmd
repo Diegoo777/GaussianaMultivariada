@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Probabilidad Gaussiana multivariada"
 author: "Diego Pedraza Barajas 2105940X
 
 
@@ -30,11 +30,7 @@ Administracción de riesgos
 
 2105931K@umich.mx
 
----
-title: "Probabilidad Gaussiana multivariada"
-format: html
-editor: visual
----
+### <a href="presentacion.html"target="_blank"> Ver presentacion</a>
 
 ## Introducción
 
